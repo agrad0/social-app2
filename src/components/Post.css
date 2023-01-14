@@ -9,7 +9,9 @@
 .avatar {
     flex-basis: 15%;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 20px 0;
     align-items: center;
     height: 200px;
 }
