@@ -3,7 +3,8 @@
     flex-wrap: nowrap;
     justify-content: space-evenly;
     flex-direction: row;
-    border: 1px solid blue;
+    border: 1px solid gray;
+    margin: 10px 0;
 }
 
 .avatar {
