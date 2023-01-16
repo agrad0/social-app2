@@ -8,7 +8,9 @@ import './Home.css';
 
 const Home = () => {
     
-  // let preloading = false;
+  const cat = localStorage.getItem('user-name');
+
+
   const [posts, setPosts] = useState([])
 
   const getLatestPosts = () => {
@@ -61,6 +63,7 @@ const Home = () => {
               )
             })}
             <button onClick={getNextPosts}>Pokaż więcej</button>
+            <p>Twoja nazwa użytkownika: {cat}</p>
         </div>
         </main>
       </>
