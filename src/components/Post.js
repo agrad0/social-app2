@@ -6,8 +6,9 @@ const Post = (props) => {
     const createdAtDate = props.postData.created_at.slice(0, 10);
     const createdAtTime = props.postData.created_at.slice(12, 19);
     const likesCounter = props.postData.likes.length;
+    console.log(props.postId);
     return (
-        <div className="post-container">
+        <div className="post-container" key={props.postId}>
             <div className="avatar">
                 <img src={props.postData.user.avatar_url} alt={props.postData.user.username} />
             </div>  

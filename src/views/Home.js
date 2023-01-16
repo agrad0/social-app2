@@ -8,23 +8,36 @@ import './Home.css';
 
 const Home = () => {
     
-  let preloading = false;
+  // let preloading = false;
   const [posts, setPosts] = useState([])
 
   const getLatestPosts = () => {
 
     axios.post('https://akademia108.pl/api/social-app/post/latest')
       .then(res => {
-        console.log(res);
+        // console.log(res);
         setPosts(res.data);
-        preloading = true;
+        // preloading = true;
+      })
+      .catch((error) => console.error(error))
+  }
+
+  const getNextPosts = () => {
+    axios.post('https://akademia108.pl/api/social-app/post/older-then', {
+      date: posts[posts.length - 1].created_at
+    })
+      .then(res => {
+        // console.log(res);
+        setPosts(posts.concat(res.data));
+        // preloading = true;
+      
       })
       .catch((error) => console.error(error))
   }
 
   useEffect(() => {
   getLatestPosts()
-  }, [(!preloading)])
+  }, [])
 
     return (
       <>
@@ -42,11 +55,12 @@ const Home = () => {
 
         <div className='post-feed'>
             {posts.map((post) => {
+              console.log(post)
               return (
-                <Post postData={post} />
+                <Post postData={post} postId={post.id} />
               )
             })}
-            <button onClick={() => getLatestPosts}>Pokaż więcej</button>
+            <button onClick={getNextPosts}>Pokaż więcej</button>
         </div>
         </main>
       </>
