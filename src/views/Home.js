@@ -2,12 +2,13 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Post from '../components/Post'
+import ShowMore from '../components/ShowMore.js'
 
 import './Home.css';
 
 const Home = () => {
     
-  
+  let preloading = false;
   const [posts, setPosts] = useState([])
 
   const getLatestPosts = () => {
@@ -16,15 +17,14 @@ const Home = () => {
       .then(res => {
         console.log(res);
         setPosts(res.data);
+        preloading = true;
       })
       .catch((error) => console.error(error))
-
-    
   }
 
-    useEffect(() => {
-      getLatestPosts()
-    }, [])
+  useEffect(() => {
+  getLatestPosts()
+  }, [(!preloading)])
 
     return (
       <>
@@ -46,6 +46,7 @@ const Home = () => {
                 <Post postData={post} />
               )
             })}
+            <button onClick={() => getLatestPosts}>Pokaż więcej</button>
         </div>
         </main>
       </>
