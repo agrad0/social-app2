@@ -1,16 +1,16 @@
 // import { Link } from 'react-router-dom';
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Post from '../components/Post'
-import ShowMore from '../components/ShowMore.js'
-
+import Post from '../components/Post';
 import './Home.css';
 
 const Home = () => {
     
-  const cat = localStorage.getItem('user-name');
+ 
+  
+  // const cat = localStorage.getItem('user-name');
 
-
+  
   const [posts, setPosts] = useState([])
 
   const getLatestPosts = () => {
@@ -63,7 +63,7 @@ const Home = () => {
               )
             })}
             <button onClick={getNextPosts}>Pokaż więcej</button>
-            <p>Twoja nazwa użytkownika: {cat}</p>
+            <p>Twoja nazwa użytkownika: </p>
         </div>
         </main>
       </>

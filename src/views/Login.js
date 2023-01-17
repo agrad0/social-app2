@@ -1,19 +1,24 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import axios from "axios";
+import React from 'react';
 
 // 
 
 function Login () {
     
-    const [user, setUser] = useState();
+    const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")))
+
+    axios.defaults.headers.common["Authorization"] = "Bearer " + (user ? user.jwt_token : "");
+    axios.defaults.headers.post["Content-Type"] = "application/json";
 
     
     const handleSubmit = (element) => {
         console.log(element)
-        axios.defaults.headers.common["Authorization"] = "Bearer " + (user ? user.jwt_token : "");
+        // axios.defaults.headers.common["Authorization"] = "Bearer " + (user ? user.jwt_token : "");
+        // axios.defaults.headers.post["Content-Type"] = "application/json";
         axios.post('https://akademia108.pl/api/social-app/user/login', element)
-          .then( (res) => {
-            console.log(res);
+          .then( (response) => {
+            console.log(response.data.error);
           })
           .catch( (error) => {
             console.log(error);
@@ -31,9 +36,9 @@ function Login () {
         console.log(loginPackage)
     }
 
-    useEffect(() => 
-        localStorage.setItem('username', [user])
-    , [user]);
+    // useEffect(() => 
+    //     localStorage.setItem('username', [user])
+    // , [user]);
 
     
 
@@ -43,11 +48,11 @@ function Login () {
         <h1>Login</h1>
         
         <form onSubmit={handleInputChange}>
-            <label for="login">Login</label>
+            <label htmlFor="login">Login</label>
             <input type="text" name="user"  />
-            <label for="password">Hasło</label>
+            <label htmlFor="password">Hasło</label>
             <input type="text" name="password" />
-            <input type="submit" value="Submit" />
+            <input type="submit" value="submit" />
         </form>
     </>
 )}
