@@ -5,12 +5,7 @@ import Post from '../components/Post';
 import './Home.css';
 
 const Home = () => {
-    
- 
-  
-  // const cat = localStorage.getItem('user-name');
 
-  
   const [posts, setPosts] = useState([])
 
   const getLatestPosts = () => {
@@ -29,10 +24,7 @@ const Home = () => {
       date: posts[posts.length - 1].created_at
     })
       .then(res => {
-        // console.log(res);
         setPosts(posts.concat(res.data));
-        // preloading = true;
-      
       })
       .catch((error) => console.error(error))
   }
@@ -57,13 +49,11 @@ const Home = () => {
 
         <div className='post-feed'>
             {posts.map((post) => {
-              console.log(post)
               return (
                 <Post postData={post} postId={post.id} />
               )
             })}
             <button onClick={getNextPosts}>Pokaż więcej</button>
-            <p>Twoja nazwa użytkownika: </p>
         </div>
         </main>
       </>
