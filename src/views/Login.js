@@ -1,15 +1,17 @@
-import { useState } from 'react';
+import { useState, useContext, createContext } from 'react';
+import { LoginContext } from '../App';
 import { useNavigate } from 'react-router-dom'
 import axios from "axios";
 import React from 'react';
 
 
 function Login () {
-    
+  
+  const {loggedIn, setLoggedIn} = useContext(LoginContext);
   const [formData, setFormData] = useState('');
   const [loginMessage, setLoginMessage] = useState('');
   const navigate = useNavigate();
-  
+
   const handleSubmit = (e) => {
       e.preventDefault();
       let user;
@@ -21,6 +23,7 @@ function Login () {
         .then( (response) => {
           if (!response.data.error) {
           localStorage.setItem('user', `${response.data.username}`)
+          setLoggedIn(true);
           setLoginMessage("Zalogowano poprawnie, nastąpi przekierowanie na stronę główną.");
           setTimeout(() => {
             navigate("/")
