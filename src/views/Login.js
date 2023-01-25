@@ -16,17 +16,16 @@ function Login () {
       e.preventDefault();
       let user;
       const loginData = (JSON.stringify({"username": formData.user, "password": formData.password}));
-      console.log(loginData);
       axios.defaults.headers.common["Authorization"] = "Bearer " + (user ? user.jwt_token : "");
       axios.defaults.headers.post["Content-Type"] = "application/json";
       axios.post('https://akademia108.pl/api/social-app/user/login', loginData)
         .then( (response) => {
           if (!response.data.error) {
-          localStorage.setItem('user', `${response.data.username}`)
-          setLoggedIn(true);
+          localStorage.setItem('user', JSON.stringify({'username': response.data.username, 'jwt_token': response.data.jwt_token}));
           setLoginMessage("Zalogowano poprawnie, nastąpi przekierowanie na stronę główną.");
           setTimeout(() => {
-            navigate("/")
+            navigate("/");
+            setLoggedIn(true);
           }, 2000)
           }
           else {

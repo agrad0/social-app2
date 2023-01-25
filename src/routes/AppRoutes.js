@@ -9,6 +9,7 @@ function AppRoutes (props) {
         <Route path="login" element={<Login />}></Route>
         <Route path="sign-up" element={<Signup />}></Route>
         <Route path="/" element={<Home />} />
+        <Route path="logout" />
     </Routes>
     )
 }

@@ -13,7 +13,6 @@ const Post = (props) => {
             </div>  
             <div className="post-content">
                 <h5>Data dodania: {createdAtDate} Godzina dodania: {createdAtTime} Liczba lajków: {likesCounter}</h5>
-                
                 <article>{props.postData.content}</article>
 
             </div>
