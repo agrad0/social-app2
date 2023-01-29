@@ -8,37 +8,34 @@ import axios from 'axios';
 
 export const LoginContext = createContext({});
 
+
 function App() {
+  
+  const storagedUserData = JSON.parse(localStorage.getItem('userData'));
+  
+  const [userData, setUserData] = useState(storagedUserData);
 
-  const storagedUser = localStorage.getItem("user");
-
-  const [user, setUser] = useState(null);
-  const [loggedIn, setLoggedIn] = useState(false);
-
-  useEffect (() => {
-    setUser(storagedUser)
-  }, [storagedUser])
-
-  const userParsed = JSON.parse(user)
-
+  // useEffect (() => {
+  //   setUser(storagedUserData);
+  // }, [storagedUserData]);
+ 
   const handleLogout = (e) => {
     e.preventDefault();
-    console.log(userParsed)
-    axios.defaults.headers.common["Authorization"] = "Bearer " + (userParsed ? userParsed.jwt_token : "");
+    const user = JSON.parse(userData);
+    axios.defaults.headers.common["Authorization"] = "Bearer " + (user ? user.jwt_token : "");
     axios.defaults.headers.post["Content-Type"] = "application/json";
     axios.post('https://akademia108.pl/api/social-app/user/logout')
     .then( (response) => {
       console.log(response)
-      setLoggedIn(false);
-      localStorage.removeItem('user');
-      setUser(null);
+      localStorage.removeItem('userData');
+      setUserData(null);
     })
 }
 
   return (
-    <LoginContext.Provider value={{loggedIn, setLoggedIn}}>
+    <LoginContext.Provider value={{userData, setUserData}}>
     <nav>
-      <AppNav user={user} handleLogout={handleLogout}/>
+      <AppNav user={userData} handleLogout={handleLogout}/>
     </nav>
     <div className="App">
       <AppRoutes />

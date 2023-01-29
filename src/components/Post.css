@@ -1,10 +1,16 @@
 .post-container {
+    width: 60%;
     display: flex;
     flex-wrap: nowrap;
     justify-content: space-evenly;
     flex-direction: row;
     border: 1px solid gray;
-    margin: 10px 0;
+    border-bottom: 0;
+    margin: 0 auto;
+}
+
+.post-container:last-of-type {
+    border-bottom: 1px solid gray;
 }
 
 .avatar {
@@ -14,7 +20,7 @@
     justify-content: flex-start;
     padding: 20px 0;
     align-items: center;
-    height: 200px;
+    height: 100px;
 }
 
 .avatar img {
@@ -24,4 +30,34 @@
 
 .post-content {
     flex-basis: 85%;
+    padding: 20px 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+.post-content .username {
+    display: inline-block;
+    float: left;
+    font-weight: bold;
+}
+
+.post-content .created-at-date {
+    display: inline-block;
+    float: right;
+}
+
+.post-content .post-text {
+    text-align: left;
+}
+
+.post-content .button-panel {
+    display: flex;
+    justify-content: end;
+    align-items: flex-end;
+}
+
+.post-content .button-panel button,
+.post-content .button-panel span {
+    padding: 5px 10px;
+    margin: 0 5px;
 }

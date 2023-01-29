@@ -1,23 +1,13 @@
 import { NavLink } from 'react-router-dom';
 import './AppNav.css';
 import { LoginContext } from '../App';
-import React, { createContext, useEffect, useState, useContext } from 'react';
-import axios from 'axios';
+import React, {  useContext } from 'react';
+
 
 
 function AppNav(props) {
 
-  const {loggedIn, setLoggedIn} = useContext(LoginContext);
-  
-
-  useEffect(() => {
-    if (loggedIn) {
-      console.log('zalogowany')
-    }
-    else {
-      console.log('niezalogowany')
-    }
-  }, [{loggedIn}])
+  const {userData, setUserData} = useContext(LoginContext);
   
 
     return (
@@ -25,11 +15,11 @@ function AppNav(props) {
         <nav>
           <ul>
               <li><NavLink to="/">Home</NavLink></li>
-              {!loggedIn &&
+              {!userData &&
               <li><NavLink to="/login">Login</NavLink></li>}
-              {!loggedIn &&
+              {!userData &&
               <li><NavLink to="/sign-up">Sign up</NavLink></li>}
-              {loggedIn &&
+              {userData &&
               <li><NavLink to="/logout" onClick={props.handleLogout}>Logout</NavLink></li>}
           </ul>
         </nav>

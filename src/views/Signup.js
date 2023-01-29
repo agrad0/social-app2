@@ -8,46 +8,51 @@ function Signup () {
     // axios.defaults.headers.common["Authorization"] = "Bearer " + (user ? user.jwt_token : "");
     axios.defaults.headers.post["Content-Type"] = "application/json";
     const [isValid, setValid] = useState(false);
-    let [loginlink, setLoginLink] = useState('');
-
+    const [loginlink, setLoginLink] = useState('');
+    const [formData, setFormData] = useState('');
+   
+    const handleInputChange = event => {
+    const target = event.target;
+    const name = target.name;  
+        setFormData({
+        ...formData,
+        [name]: target.value,
+     })
+    }
+    
     const signUpSubmit = (e) => {
         e.preventDefault();
-        const target = e.target;
-        const username = target.username.value;
-        const email = target.email.value;
-        const password = target.password.value;
-        const confirmPassword = target.confirmPassword.value;
 
         if 
         (
-        (username.length >= 4) 
+        (formData.username.length >= 4) 
         && 
-        (email.length >= 0) 
+        (formData.email.length >= 0) 
         && 
-        (password.length >= 0) 
+        (formData.password.length >= 0) 
         && 
-        (confirmPassword.length >= 0)
+        (formData.confirmPassword.length >= 0)
         ) 
         {
             if (
-            (/^[^\s]*$/.test(username)) 
+            (/^[^\s]*$/.test(formData.username)) 
             &&
-            (/^[^\s]*$/.test(email)) 
+            (/^[^\s]*$/.test(formData.email)) 
             &&
-            (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email)) 
+            (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(formData.email)) 
             &&
-            (/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+/.test(password)) 
+            (/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+/.test(formData.password)) 
             &&
-            password === confirmPassword
+            formData.password === formData.confirmPassword
             ) 
                 {
                 console.log("poprawne dane");
                 setValid(true);
                 setLoginLink("Rejestracja pomyślna. Przejdź do logowania");
                 let newUser = JSON.stringify({
-                    "username": username,
-                    "email": email,
-                    "password": password 
+                    "username": formData.username,
+                    "email": formData.email,
+                    "password": formData.password 
                 })
                 axios
                 .post("http://akademia108.pl/api/social-app/user/signup", newUser)
@@ -73,10 +78,10 @@ function Signup () {
     <>
     <h1>Sign up</h1>
     <form onSubmit={signUpSubmit}>
-        <input type="text" name="username" placeholder="username" /><br></br>
-        <input type="email" name="email" placeholder="e-mail" /><br></br>
-        <input type="text" name="password" placeholder="password" /><br></br>
-        <input type="text" name="confirmPassword" placeholder="confirm password" /><br></br>
+        <input type="text" name="username" placeholder="username" onChange={handleInputChange} /><br></br>
+        <input type="email" name="email" placeholder="e-mail" onChange={handleInputChange} /><br></br>
+        <input type="text" name="password" placeholder="password" onChange={handleInputChange} /><br></br>
+        <input type="text" name="confirmPassword" placeholder="confirm password" onChange={handleInputChange} /><br></br>
         <input type="submit" value="submit" disabled={isValid} />
     </form>
     <Link to='../login'> {loginlink} </Link>

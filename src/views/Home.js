@@ -1,20 +1,21 @@
 // import { Link } from 'react-router-dom';
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { LoginContext } from '../App';
 import axios from "axios";
 import Post from '../components/Post';
 import './Home.css';
+import AddPost from "../components/AddPost";
 
 const Home = () => {
-
+  const {userData, setUserData} = useContext(LoginContext);
   const [posts, setPosts] = useState([])
 
   const getLatestPosts = () => {
 
     axios.post('https://akademia108.pl/api/social-app/post/latest')
       .then(res => {
-        // console.log(res);
+        console.log(res);
         setPosts(res.data);
-        // preloading = true;
       })
       .catch((error) => console.error(error))
   }
@@ -33,15 +34,40 @@ const Home = () => {
   getLatestPosts()
   }, [])
 
+  const getPrevPosts = () => {
+    axios.post('https://akademia108.pl/api/social-app/post/newer-then', {
+      date: posts[0].created_at
+    })
+      .then(res => {
+        console.log(res);
+        setPosts(res.data.concat(posts));
+    })
+    .catch((error) => console.error(error))
+
+  }
+
+  const deletePost = (post_id) => {
+    const postToDelete = JSON.stringify({"post_id": post_id});
+    const user = JSON.parse(userData);
+    axios.defaults.headers.common["Authorization"] = "Bearer " + (user ? user.jwt_token : "");
+    axios.defaults.headers.post["Content-Type"] = "application/json";
+    axios.post('https://akademia108.pl/api/social-app/post/delete', postToDelete)
+      .then((response) => {
+        console.log(response);
+      })
+    setPosts(posts.filter(post => post.id !== post_id ))
+  }
+
     return (
       <>
         <header>
           <h1>Feed</h1>
         </header>
         <main>
-        <div className='create-post'>
-          <h3>Create a new post!</h3>
-        </div>
+        
+        {userData &&
+        <AddPost getPrevPosts={getPrevPosts} />}
+
 
         <div className='recommended-profiles'>
           <h3>Subscribe new recommended profiles!</h3>
@@ -50,7 +76,7 @@ const Home = () => {
         <div className='post-feed'>
             {posts.map((post) => {
               return (
-                <Post postData={post} postId={post.id} />
+                <Post postData={post} postId={post.id} deletePost={deletePost} />
               )
             })}
             <button onClick={getNextPosts}>Pokaż więcej</button>
