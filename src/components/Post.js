@@ -2,6 +2,7 @@ import React from "react";
 import './Post.css';
 import { LoginContext } from '../App';
 import { useState, useContext, useRef } from 'react';
+import Modal from './Modal';
 
 
 const Post = (props) => {
@@ -10,7 +11,7 @@ const Post = (props) => {
     const createdAtDate = props.postData.created_at.slice(0, 10);
     const likesCounter = props.postData.likes.length;
     const postAuthor = props.postData.user.username;
-    
+    const [openModal, setOpenModal] = useState(false)
     let ownPost = false;
 
 
@@ -37,7 +38,8 @@ const Post = (props) => {
                     <p className="post-text">{props.postData.content}</p>
                     <div className='button-panel'>
                         {ownPost &&
-                        <button className='follow' onClick={() => props.deletePost(props.postData.id)}>Delete</button>}
+                        <button className='follow' onClick={() => setOpenModal(true)}>Delete</button>}
+                        {ownPost && openModal && <Modal closeModal={setOpenModal} deletePost={props.deletePost} postId={props.postData.id}/>}
                         {!ownPost &&
                         <button className='follow'>Follow</button>}  
                         <button className='like'>Like</button>
