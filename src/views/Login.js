@@ -13,13 +13,10 @@ function Login () {
   const [loginMessage, setLoginMessage] = useState('');
   const navigate = useNavigate();
 
+
   const handleSubmit = (e) => {
       e.preventDefault();
-      // console.log(formData);
-      // let user;
       const loginData = (JSON.stringify({"username": formData.user, "password": formData.password}));
-      // axios.defaults.headers.common["Authorization"] = "Bearer " + (user ? user.jwt_token : "");
-      // axios.defaults.headers.post["Content-Type"] = "application/json";
       axios.post('https://akademia108.pl/api/social-app/user/login', loginData)
         .then( (response) => {
           if (!response.data.error) {

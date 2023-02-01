@@ -7,7 +7,7 @@ import './Home.css';
 import AddPost from "../components/AddPost";
 
 const Home = () => {
-  const {userData, setUserData} = useContext(LoginContext);
+  const {userData} = useContext(LoginContext);
   const [posts, setPosts] = useState([])
 
   const getLatestPosts = () => {
@@ -48,9 +48,9 @@ const Home = () => {
 
   const deletePost = (post_id) => {
     const postToDelete = JSON.stringify({"post_id": post_id});
-    const user = JSON.parse(userData);
-    axios.defaults.headers.common["Authorization"] = "Bearer " + (user ? user.jwt_token : "");
-    axios.defaults.headers.post["Content-Type"] = "application/json";
+    // const user = JSON.parse(userData);
+    // axios.defaults.headers.common["Authorization"] = "Bearer " + (user ? user.jwt_token : "");
+    // axios.defaults.headers.post["Content-Type"] = "application/json";
     axios.post('https://akademia108.pl/api/social-app/post/delete', postToDelete)
       .then((response) => {
         console.log(response);
@@ -76,7 +76,7 @@ const Home = () => {
         <div className='post-feed'>
             {posts.map((post) => {
               return (
-                <Post postData={post} postId={post.id} deletePost={deletePost} />
+                <Post postData={post} postId={post.id} deletePost={deletePost} key={post.id} />
               )
             })}
             <button onClick={getNextPosts}>Pokaż więcej</button>

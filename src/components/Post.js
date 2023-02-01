@@ -24,7 +24,7 @@ const Post = (props) => {
 
 
     return (
-        <div className="post-container" key={props.postId}>
+        <div className="post-container">
             <div className="avatar">
                 <img src={props.postData.user.avatar_url} alt={props.postData.user.username} />
             </div>  
