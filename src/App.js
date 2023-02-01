@@ -9,9 +9,9 @@ import axios from 'axios';
 export const LoginContext = createContext({});
 
 
-function App() {
+const App = () => {
   
-  const storagedUserData = JSON.parse(localStorage.getItem('userData'));
+  const storagedUserData = JSON.parse(localStorage.getItem('user-item'));
   
   const [userData, setUserData] = useState(storagedUserData);
 
@@ -21,13 +21,13 @@ function App() {
  
   const handleLogout = (e) => {
     e.preventDefault();
-    const user = JSON.parse(userData);
-    axios.defaults.headers.common["Authorization"] = "Bearer " + (user ? user.jwt_token : "");
+    // const user = JSON.parse(userData);
+    axios.defaults.headers.common["Authorization"] = "Bearer " + (userData ? userData.jwt_token : "");
     axios.defaults.headers.post["Content-Type"] = "application/json";
     axios.post('https://akademia108.pl/api/social-app/user/logout')
     .then( (response) => {
       console.log(response)
-      localStorage.removeItem('userData');
+      localStorage.removeItem('user-item');
       setUserData(null);
     })
 }
