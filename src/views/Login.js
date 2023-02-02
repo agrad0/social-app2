@@ -16,7 +16,7 @@ function Login () {
 
   const handleSubmit = (e) => {
       e.preventDefault();
-      const loginData = (JSON.stringify({"username": formData.user, "password": formData.password}));
+      const loginData = JSON.stringify({"username": formData.user, "password": formData.password});
       axios.post('https://akademia108.pl/api/social-app/user/login', loginData)
         .then( (response) => {
           if (!response.data.error) {

@@ -1,11 +1,12 @@
 .modalBackground {
-    width: 50vw;
-    height: 50vh;
-    background-color: rgba(200, 200, 200);
+    background-color: white;
     position: fixed;
     display: flex;
     justify-content: center;
     align-items: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
 
   .modalContainer {
@@ -23,6 +24,7 @@
     display: inline-block;
     text-align: center;
     margin-top: 10px;
+    font-size: 15px;
   }
   
   .titleCloseBtn {

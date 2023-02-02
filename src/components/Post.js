@@ -3,28 +3,48 @@ import './Post.css';
 import { LoginContext } from '../App';
 import { useState, useContext, useRef } from 'react';
 import Modal from './Modal';
+import axios from "axios";
 
 
 const Post = (props) => {
-    const {userData, setUserData} = useContext(LoginContext);
-    
+    const {userData, setUserData, user, axiosHeader, axiosDefaults} = useContext(LoginContext);
     const createdAtDate = props.postData.created_at.slice(0, 10);
-    const likesCounter = props.postData.likes.length;
     const postAuthor = props.postData.user.username;
-    const [openModal, setOpenModal] = useState(false)
+    const [openModal, setOpenModal] = useState(false);
+    const [likesCount, setLikesCount] = useState(props.postData.likes.length);
+    const [doesUserLiked, setDoesUserLiked] = useState(
+        props.postData.likes.filter((like) => like.username === user?.username).length !== 0
+    )
     let ownPost = false;
-
-
-    if (userData) {
-        const user = JSON.parse(userData).username;
-        if (postAuthor === user) {
-        ownPost = true
+    
+    if (user) {
+        if (postAuthor === user.username) {
+            ownPost = true;
         }
     }
+    
+    const likePost = () => {
+        const likeData = JSON.stringify({"post_id": props.postData.id});
+        axios.post('https://akademia108.pl/api/social-app/post/like', likeData)
+        .then((response) => {
+          console.log(response);
+          setLikesCount(likesCount + 1);
+          setDoesUserLiked(true);
+        })
+    }
 
-
+    const disLikePost = () => {
+        const disLikeData = JSON.stringify({"post_id": props.postData.id});
+        axios.post('https://akademia108.pl/api/social-app/post/like', disLikeData)
+        .then((response) => {
+            console.log(response);
+            setLikesCount(likesCount - 1);
+            setDoesUserLiked(false);
+        })
+    }
 
     return (
+        <>
         <div className="post-container">
             <div className="avatar">
                 <img src={props.postData.user.avatar_url} alt={props.postData.user.username} />
@@ -38,16 +58,20 @@ const Post = (props) => {
                     <p className="post-text">{props.postData.content}</p>
                     <div className='button-panel'>
                         {ownPost &&
-                        <button className='follow' onClick={() => setOpenModal(true)}>Delete</button>}
-                        {ownPost && openModal && <Modal closeModal={setOpenModal} deletePost={props.deletePost} postId={props.postData.id}/>}
-                        {!ownPost &&
+                        <button className='follow'>Delete</button>}
+                        {!ownPost && 
                         <button className='follow'>Follow</button>}  
-                        <button className='like'>Like</button>
-                        <span className='likes-counter'>{likesCounter}</span>
+                        {!doesUserLiked &&
+                        <button className='like' onClick={likePost}>Like</button>}
+                        {doesUserLiked &&
+                        <button className='like' onClick={disLikePost}>Dislike</button>}
+                        <span className='likes-counter'>{likesCount}</span>
                     </div>
                 </div>
             </div>
         </div>
+        {ownPost && openModal && <Modal closeModal={setOpenModal} deletePost={props.deletePost} postId={props.postData.id}/>}
+        </>
     )
 }
 

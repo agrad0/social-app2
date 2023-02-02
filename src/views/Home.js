@@ -48,9 +48,6 @@ const Home = () => {
 
   const deletePost = (post_id) => {
     const postToDelete = JSON.stringify({"post_id": post_id});
-    // const user = JSON.parse(userData);
-    // axios.defaults.headers.common["Authorization"] = "Bearer " + (user ? user.jwt_token : "");
-    // axios.defaults.headers.post["Content-Type"] = "application/json";
     axios.post('https://akademia108.pl/api/social-app/post/delete', postToDelete)
       .then((response) => {
         console.log(response);
