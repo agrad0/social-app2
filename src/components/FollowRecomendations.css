@@ -1,0 +1,31 @@
+.recommended-profiles {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    width: 60%;
+    margin: 10px auto;
+    border: 1px solid gray;
+    padding: 0;
+}
+
+.recommended-profile {
+    flex-basis: 33%;
+    display: flex;
+    flex-direction: column;
+}
+
+.recommended-profile img, 
+.recommended-profile button,
+.recommended-profile span {
+    margin: 5px auto;
+}
+
+.recommended-profile img {
+    width: 100px;
+}
+
+.recommended-profile button {
+    width: 80px;
+}
+
+

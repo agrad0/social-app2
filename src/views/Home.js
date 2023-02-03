@@ -5,10 +5,12 @@ import axios from "axios";
 import Post from '../components/Post';
 import './Home.css';
 import AddPost from "../components/AddPost";
+import FollowRecomendations from "../components/FollowRecomendations";
 
 const Home = () => {
   const {userData} = useContext(LoginContext);
-  const [posts, setPosts] = useState([])
+  const [posts, setPosts] = useState([]);
+
 
   const getLatestPosts = () => {
 
@@ -55,6 +57,18 @@ const Home = () => {
     setPosts(posts.filter(post => post.id !== post_id ))
   }
 
+  const disFollow = (user_id) => {
+    console.log(user_id)
+    const followedUserData = JSON.stringify({"leader_id": user_id});
+    axios.post('https://akademia108.pl/api/social-app/follows/disfollow', followedUserData)
+     .then(res => {
+       console.log(res.data);
+     }) 
+     .catch((error) => console.error(error))
+    setPosts(posts.filter(post => post.user.id !== user_id ));
+}
+
+
     return (
       <>
         <header>
@@ -65,15 +79,12 @@ const Home = () => {
         {userData &&
         <AddPost getPrevPosts={getPrevPosts} />}
 
-
-        <div className='recommended-profiles'>
-          <h3>Subscribe new recommended profiles!</h3>
-        </div>
-
+        {userData && 
+        <FollowRecomendations updatePosts={getLatestPosts} />}
         <div className='post-feed'>
             {posts.map((post) => {
               return (
-                <Post postData={post} postId={post.id} deletePost={deletePost} key={post.id} />
+                <Post postData={post} postId={post.id} deletePost={deletePost} disFollow={disFollow} key={post.id} />
               )
             })}
             <button onClick={getNextPosts}>Pokaż więcej</button>

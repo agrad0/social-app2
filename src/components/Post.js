@@ -35,7 +35,7 @@ const Post = (props) => {
 
     const disLikePost = () => {
         const disLikeData = JSON.stringify({"post_id": props.postData.id});
-        axios.post('https://akademia108.pl/api/social-app/post/like', disLikeData)
+        axios.post('https://akademia108.pl/api/social-app/post/dislike', disLikeData)
         .then((response) => {
             console.log(response);
             setLikesCount(likesCount - 1);
@@ -57,13 +57,13 @@ const Post = (props) => {
                 <div className='post-text-container'>
                     <p className="post-text">{props.postData.content}</p>
                     <div className='button-panel'>
-                        {ownPost &&
-                        <button className='follow'>Delete</button>}
-                        {!ownPost && 
-                        <button className='follow'>Follow</button>}  
-                        {!doesUserLiked &&
+                        {ownPost && user &&
+                        <button className='delete-post' onClick={() => setOpenModal(true)}>Delete</button>}
+                        {!ownPost && user &&
+                        <button className='unfollow' onClick={() => props.disFollow(props.postData.user.id)}>Unfollow</button>}  
+                        {!doesUserLiked && user &&
                         <button className='like' onClick={likePost}>Like</button>}
-                        {doesUserLiked &&
+                        {doesUserLiked && user &&
                         <button className='like' onClick={disLikePost}>Dislike</button>}
                         <span className='likes-counter'>{likesCount}</span>
                     </div>
