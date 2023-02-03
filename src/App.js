@@ -22,7 +22,6 @@ const App = () => {
     console.log(user);
     axios.post('https://akademia108.pl/api/social-app/user/logout')
     .then( (response) => {
-      console.log(response)
       localStorage.removeItem('user-item');
       setUserData(null);
     })

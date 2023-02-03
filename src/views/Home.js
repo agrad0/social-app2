@@ -10,13 +10,13 @@ import FollowRecomendations from "../components/FollowRecomendations";
 const Home = () => {
   const {userData} = useContext(LoginContext);
   const [posts, setPosts] = useState([]);
+  const [unfollowedUser, setUnfollowedUser] = useState([]);
 
 
   const getLatestPosts = () => {
 
     axios.post('https://akademia108.pl/api/social-app/post/latest')
       .then(res => {
-        console.log(res);
         setPosts(res.data);
       })
       .catch((error) => console.error(error))
@@ -63,6 +63,8 @@ const Home = () => {
     axios.post('https://akademia108.pl/api/social-app/follows/disfollow', followedUserData)
      .then(res => {
        console.log(res.data);
+       setUnfollowedUser(user_id)
+       getLatestPosts();
      }) 
      .catch((error) => console.error(error))
     setPosts(posts.filter(post => post.user.id !== user_id ));
@@ -80,7 +82,7 @@ const Home = () => {
         <AddPost getPrevPosts={getPrevPosts} />}
 
         {userData && 
-        <FollowRecomendations updatePosts={getLatestPosts} />}
+        <FollowRecomendations updatePosts={getLatestPosts} unfollowedUser={unfollowedUser} />}
         <div className='post-feed'>
             {posts.map((post) => {
               return (
