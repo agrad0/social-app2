@@ -7,7 +7,7 @@ import axios from "axios";
 const FollowRecomendations = (props) => {
     const {userData} = useContext(LoginContext);
     const [recommendations, setRecommendations] = useState([]);
-
+    let unfollowedUser = props.unfollowedUser;
   
     const getRecommendations = () => {
         axios.post('https://akademia108.pl/api/social-app/follows/recommendations')
@@ -38,7 +38,7 @@ const FollowRecomendations = (props) => {
         if (userData) {
         getRecommendations()
       }
-      }, [userData])
+      }, [userData, unfollowedUser])
 
     return (
     <ul className='recommended-profiles'>
