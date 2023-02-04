@@ -13,8 +13,8 @@ const [postContent, setPostContent] = useState('');
 
     const handlePostChange = event => {
         const target = event.target;
-        setPostContent(target.value)
-        console.log(postContent)
+        setPostContent(target.value);
+        console.log(postContent);   
     }
 
     const addPost = (e) => {
@@ -30,7 +30,7 @@ const [postContent, setPostContent] = useState('');
         console.log(response)
         props.getPrevPosts();
         });
-        
+    e.target[0].value = '';
     }
 
 

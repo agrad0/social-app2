@@ -11,15 +11,15 @@ export const LoginContext = createContext({});
 const App = () => {
 
   
-  const storagedUserData = JSON.parse(localStorage.getItem('user-item'));
+  const storagedUserData = localStorage.getItem('user-item');
   const [userData, setUserData] = useState(storagedUserData);
-  const user = JSON.parse(userData);
-  const axiosHeader = axios.defaults.headers.common["Authorization"] = "Bearer " + (user ? user.jwt_token : "");
+
+  const axiosHeader = axios.defaults.headers.common["Authorization"] = "Bearer " + (userData ? JSON.parse(userData).jwt_token : "");
   const axiosDefaults = axios.defaults.headers.post["Content-Type"] = "application/json";
  
   const handleLogout = (e) => {
+    console.log(JSON.parse(userData))
     e.preventDefault();
-    console.log(user);
     axios.post('https://akademia108.pl/api/social-app/user/logout')
     .then( (response) => {
       localStorage.removeItem('user-item');
@@ -28,7 +28,7 @@ const App = () => {
 }
 
   return (
-    <LoginContext.Provider value={{userData, setUserData, user, axiosHeader, axiosDefaults }}>
+    <LoginContext.Provider value={{userData, setUserData, axiosHeader, axiosDefaults}}>
     <nav>
       <AppNav user={userData} handleLogout={handleLogout}/>
     </nav>

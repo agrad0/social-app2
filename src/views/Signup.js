@@ -80,8 +80,8 @@ function Signup () {
     <form onSubmit={signUpSubmit}>
         <input type="text" name="username" placeholder="username" onChange={handleInputChange} /><br></br>
         <input type="email" name="email" placeholder="e-mail" onChange={handleInputChange} /><br></br>
-        <input type="text" name="password" placeholder="password" onChange={handleInputChange} /><br></br>
-        <input type="text" name="confirmPassword" placeholder="confirm password" onChange={handleInputChange} /><br></br>
+        <input type="password" name="password" placeholder="password" onChange={handleInputChange} /><br></br>
+        <input type="password" name="confirmPassword" placeholder="confirm password" onChange={handleInputChange} /><br></br>
         <input type="submit" value="submit" disabled={isValid} />
     </form>
     <Link to='../login'> {loginlink} </Link>

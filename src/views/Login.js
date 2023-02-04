@@ -56,7 +56,7 @@ function Login () {
             <label htmlFor="login">Login</label>
             <input type="text" name="user" onChange={handleInputChange} />
             <label htmlFor="password">Hasło</label>
-            <input type="text" name="password" onChange={handleInputChange} />
+            <input type="password" name="password" onChange={handleInputChange} />
             <input type="submit" value="submit" />
         </form>
         <h1>{loginMessage}</h1>
