@@ -25,7 +25,7 @@ function LoginForm () {
               navigate("/");
               localStorage.setItem('user-item', JSON.stringify(response.data));
               setUserData(localStorage.getItem('user-item'));
-            }, 2000)
+            }, 2000);
             }
             else {
               setLoginMessage("Niepoprawne logowanie, sprawdź dane lub skontaktuj się z działem technicznym")
