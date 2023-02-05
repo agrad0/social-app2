@@ -1,7 +1,7 @@
 import React from "react";
 import './Post.css';
 import { LoginContext } from '../App';
-import { useState, useContext, useRef } from 'react';
+import { useState, useContext } from 'react';
 import Modal from './Modal';
 import axios from "axios";
 
@@ -17,8 +17,8 @@ const Post = (props) => {
     )
     let ownPost = false;
     
-    if (user) {
-        if (postAuthor === user.username) {
+    if (userData) {
+        if (postAuthor === userData.username) {
             ownPost = true;
         }
     }
@@ -57,13 +57,13 @@ const Post = (props) => {
                 <div className='post-text-container'>
                     <p className="post-text">{props.postData.content}</p>
                     <div className='button-panel'>
-                        {ownPost && user &&
+                        {ownPost && userData &&
                         <button className='delete-post' onClick={() => setOpenModal(true)}>Delete</button>}
-                        {!ownPost && user &&
+                        {!ownPost && userData &&
                         <button className='unfollow' onClick={() => props.disFollow(props.postData.user.id)}>Unfollow</button>}  
-                        {!doesUserLiked && user &&
+                        {!doesUserLiked && userData &&
                         <button className='like' onClick={likePost}>Like</button>}
-                        {doesUserLiked && user &&
+                        {doesUserLiked && userData &&
                         <button className='like' onClick={disLikePost}>Dislike</button>}
                         <span className='likes-counter'>{likesCount}</span>
                     </div>

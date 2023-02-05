@@ -6,11 +6,13 @@ import Post from '../components/Post';
 import './Home.css';
 import AddPost from "../components/AddPost";
 import FollowRecomendations from "../components/FollowRecomendations";
+import PopUp from "./PopUp";
 
 const Home = () => {
   const {userData} = useContext(LoginContext);
   const [posts, setPosts] = useState([]);
   const [unfollowedUser, setUnfollowedUser] = useState([]);
+  const [showPopUp, setShowPopUp] = useState(false);
 
 
   const getLatestPosts = () => {
@@ -35,6 +37,13 @@ const Home = () => {
   useEffect(() => {
   getLatestPosts()
   }, [])
+
+  useEffect(() => {
+    if (!userData)
+    setTimeout(() => {
+      setShowPopUp(true)
+    }, 5000)
+  }, [userData])
 
   const getPrevPosts = () => {
     axios.post('https://akademia108.pl/api/social-app/post/newer-then', {
@@ -80,6 +89,9 @@ const Home = () => {
         
         {userData &&
         <AddPost getPrevPosts={getPrevPosts} />}
+
+        {!userData && showPopUp &&
+        <PopUp setShowPopUp={setShowPopUp} />}
 
         {userData && 
         <FollowRecomendations updatePosts={getLatestPosts} unfollowedUser={unfollowedUser} />}
