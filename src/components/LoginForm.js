@@ -7,7 +7,7 @@ import '../App';
 
 function LoginForm () {
   
-    const {setUserData} = useContext(LoginContext);
+    const {userData, setUserData} = useContext(LoginContext);
     const [formData, setFormData] = useState('');
     const [loginMessage, setLoginMessage] = useState('');
     const navigate = useNavigate();

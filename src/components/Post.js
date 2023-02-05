@@ -7,18 +7,18 @@ import axios from "axios";
 
 
 const Post = (props) => {
-    const {userData, setUserData, user, axiosHeader, axiosDefaults} = useContext(LoginContext);
+    const {userData, setUserData, axiosHeader, axiosDefaults} = useContext(LoginContext);
     const createdAtDate = props.postData.created_at.slice(0, 10);
     const postAuthor = props.postData.user.username;
     const [openModal, setOpenModal] = useState(false);
     const [likesCount, setLikesCount] = useState(props.postData.likes.length);
     const [doesUserLiked, setDoesUserLiked] = useState(
-        props.postData.likes.filter((like) => like.username === user?.username).length !== 0
+        props.postData.likes.filter((like) => like.username === userData?.username).length !== 0
     )
     let ownPost = false;
     
     if (userData) {
-        if (postAuthor === userData.username) {
+        if (postAuthor === JSON.parse(userData).username) {
             ownPost = true;
         }
     }
