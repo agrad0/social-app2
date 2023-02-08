@@ -13,8 +13,8 @@ function Signup() {
         confirmPassword: ''
     });
     const [formErrors, setFormErrors] = useState({
-        usernameError: '',
-        emailError: '',
+        usernameError: 'domyslny user blad',
+        emailError: 'domyslny email blad',
         passwordError: '',
         confirmPasswordError: ''
     });
@@ -46,13 +46,16 @@ function Signup() {
             (!(/^[^\s]*$/.test(formData.username)))) {
             allFields = true;
             console.log('błąd');
-            setFormErrors({
-                ...formErrors,
-                usernameError: 'Pole username nie może być puste, min. 4 znaki, nie może zawierać białych znaków'
+            setFormErrors((prevErrors) => {
+                return {
+                    ...prevErrors,
+                    usernameError: 'Pole username nie może być puste, min. 4 znaki, nie może zawierać białych znaków'
+                }
             })
         }
         else {
             console.log('błąd else')
+            allFields = false;
             setFormErrors({
                 ...formErrors,
                 usernameError: ''
@@ -65,15 +68,21 @@ function Signup() {
             !(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(formData.email))
             ||
             !(/^[^\s]*$/.test(formData.email))) {
-                allFields = true;
-                setFormErrors({
-                    ...formErrors,
-                    emailError: 'Pole email nie może być puste, nie może zawierać białych znaków, musi to być poprawny adres email'});
+            allFields = true;
+            console.log('błąd email');
+            setFormErrors((prevErrors) => {
+                return{
+                ...prevErrors,
+                emailError: 'Pole email nie może być puste, nie może zawierać białych znaków, musi to być poprawny adres email'}
+            });
         }
         else {
+            allFields = false;
+            console.log('brak błędu email');
             setFormErrors({
                 ...formErrors,
-                    emailError: ''});
+                emailError: ''
+            });
         }
         if
             (
@@ -84,34 +93,46 @@ function Signup() {
             !(/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+/.test(formData.password))
         ) {
             allFields = true;
-            setFormErrors({
-                ...formErrors,
-                passwordError: 'Pole password nie może być puste, min. 6 znaków, musi zawierać co najmniej 1 cyfrę, musi zawierać co najmniej jeden specjalny znak z następujących: ! # @ $ %'});
+            console.log('źle hasło');
+            setFormErrors((prevErrors) => {
+                return{
+                ...prevErrors,
+                passwordError: 'Pole password nie może być puste, min. 6 znaków, musi zawierać co najmniej 1 cyfrę, musi zawierać co najmniej jeden specjalny znak z następujących: ! # @ $ %'}
+            });
         }
         else {
+            allFields = false;
+            console.log('dobrze hasło');
             setFormErrors({
                 ...formErrors,
-                passwordError: ''})
+                passwordError: ''
+            })
         }
 
         if (
             (!(formData.password === formData.confirmPassword))) {
-                allFields = true;
-                setFormErrors({
-                ...formErrors,
-                confirmPasswordError: 'Pole confirm-password musi być identyczne jak pole password'})
+            allFields = true;
+            console.log('błąd potwierdzenia hasła')
+            setFormErrors((prevErrors) => {
+                return{
+                ...prevErrors,
+                confirmPasswordError: 'Pole confirm-password musi być identyczne jak pole password'}
+            })
         }
         else {
+            allFields = false;
+            console.log('brak błędu potwierdzenia hasła');
             setFormErrors({
                 ...formErrors,
-                confirmPasswordError:''})
+                confirmPasswordError: ''
+            })
         }
 
         if (allFields === false) {
             let newUser = JSON.stringify({
-                "username": formData.username,
-                "email": formData.email,
-                "password": formData.password
+                username: formData.username,
+                email: formData.email,
+                password: formData.password
             })
             axios
                 .post("http://akademia108.pl/api/social-app/user/signup", newUser)
@@ -143,7 +164,7 @@ function Signup() {
                 <input type="password" name="password" placeholder="password" onChange={handleInputChange} disabled={loggedIn} /><br></br>
                 <span>{formErrors.passwordError}</span><br></br>
                 <input type="password" name="confirmPassword" placeholder="confirm password" onChange={handleInputChange} disabled={loggedIn} /><br></br>
-                <span>{formErrors.passwordError}</span><br></br>
+                <span>{formErrors.confirmPasswordError}</span><br></br>
                 <input type="submit" value="submit" disabled={loggedIn} />
             </form>
             <Link to='../login'> {loginlink} </Link>
